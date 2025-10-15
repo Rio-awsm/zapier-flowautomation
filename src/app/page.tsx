@@ -1,8 +1,8 @@
-import prisma from "@/lib/db"
+import { caller } from "@/trpc/server"
 
 
 const Page = async () => {
-  const user = await prisma.user.findMany()
+  const user = await caller.getUsers()
   return (
     <div>
       {JSON.stringify(user)}
