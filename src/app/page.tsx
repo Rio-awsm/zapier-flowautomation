@@ -1,8 +1,14 @@
+import prisma from "@/lib/db"
 
-export default function Home() {
+
+const Page = async () => {
+  const user = await prisma.user.findMany()
   return (
-  <div>
-    page
-  </div>
-  );
+    <div>
+      {JSON.stringify(user)}
+    </div>
+  )
 }
+
+export default Page
+
