@@ -22,6 +22,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { FaGithub, FaGoogle } from "react-icons/fa";
 import { toast } from "sonner";
 import z from "zod";
 
@@ -79,7 +80,7 @@ const LoginForm = () => {
                     type="button"
                     disabled={isPending}
                   >
-                    Continue with GitHub
+                  <FaGithub className="size-5" />  Continue with GitHub
                   </Button>
 
                   <Button
@@ -88,7 +89,7 @@ const LoginForm = () => {
                     type="button"
                     disabled={isPending}
                   >
-                    Continue with Google
+                   <FaGoogle className="size-5" /> Continue with Google
                   </Button>
                 </div>
 
