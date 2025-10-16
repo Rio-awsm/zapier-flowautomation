@@ -1,14 +1,17 @@
-import { caller } from "@/trpc/server"
-
+import Logout from "@/components/logout";
+import { requireAuth } from "@/lib/auth-utils";
+import { caller } from "@/trpc/server";
 
 const Page = async () => {
-  const user = await caller.getUsers()
+  await requireAuth()
+  const data = await caller.getUsers()
   return (
-    <div>
-      {JSON.stringify(user)}
+    <div className="min-h-screen min-w-screen flex flex-col items-center gap-y-6">
+      protected homepage
+      <div>{JSON.stringify(data, null, 2)}</div>
+      <div><Logout /></div>
     </div>
-  )
-}
+  );
+};
 
-export default Page
-
+export default Page;
