@@ -4,6 +4,7 @@ import Logout from "@/components/logout";
 import { Button } from "@/components/ui/button";
 import { useTRPC } from "@/trpc/client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 const Page = () => {
   // await requireAuth()
@@ -18,6 +19,12 @@ const Page = () => {
       },
     })
   );
+
+  const testAi = useMutation(trpc.testAi.mutationOptions({
+    onSuccess: () => {
+      toast.success("AI Job Queued")
+    }
+  }));
   return (
     <div className="min-h-screen min-w-screen flex flex-col items-center gap-y-6">
       protected homepage
@@ -26,6 +33,9 @@ const Page = () => {
       <div>
         <Logout />
       </div>
+      <Button disabled={testAi.isPending} onClick={() => testAi.mutate()}>
+        Test AI
+      </Button>
     </div>
   );
 };
