@@ -1,6 +1,7 @@
 "use client";
 
-import { AddNodeButton } from "@/components/add-node-button";
+
+import { AddNodeButton } from "@/components/node_components/add-node-button";
 import {
   ErrorView,
   LoadingView,
