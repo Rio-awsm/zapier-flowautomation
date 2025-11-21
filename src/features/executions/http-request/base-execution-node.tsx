@@ -1,10 +1,13 @@
 "use client";
-import { Position, type NodeProps } from "@xyflow/react";
+import { Position, useReactFlow, type NodeProps } from "@xyflow/react";
 import type { LucideIcon } from "lucide-react";
 import Image from "next/image";
 import { memo, ReactNode } from "react";
 import { BaseHandle } from "../../../components/node_components/base-handle";
-import { BaseNode, BaseNodeContent } from "../../../components/node_components/base-node";
+import {
+  BaseNode,
+  BaseNodeContent,
+} from "../../../components/node_components/base-node";
 import WorkflowNode from "../../../components/node_components/workflow-node";
 
 interface BaseExecutionNodeProps extends NodeProps {
@@ -27,7 +30,21 @@ export const BaseExecutionNode = memo(
     onSettings,
     onDoubleClick,
   }: BaseExecutionNodeProps) => {
-    const handleDelete = () => {};
+    const { setNodes, setEdges } = useReactFlow();
+    const handleDelete = () => {
+      setNodes((currentNodes) => {
+        const updatedNodes = currentNodes.filter((node) => node.id !== id);
+        return updatedNodes;
+      });
+
+      setEdges((currentEdges) => {
+        const updatedEdges = currentEdges.filter(
+          (edge) => edge.source !== id && edge.target !== id
+        );
+        return updatedEdges;
+      });
+    };
+
     return (
       <WorkflowNode
         name={name}
@@ -52,4 +69,4 @@ export const BaseExecutionNode = memo(
   }
 );
 
-BaseExecutionNode.displayName = "BaseExecutionNode"
+BaseExecutionNode.displayName = "BaseExecutionNode";
