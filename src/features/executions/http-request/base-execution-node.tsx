@@ -1,4 +1,8 @@
 "use client";
+import {
+  NodeStatus,
+  NodeStatusIndicator,
+} from "@/components/node_components/node-status-indicator";
 import { Position, useReactFlow, type NodeProps } from "@xyflow/react";
 import type { LucideIcon } from "lucide-react";
 import Image from "next/image";
@@ -15,7 +19,7 @@ interface BaseExecutionNodeProps extends NodeProps {
   name: string;
   description?: string;
   children?: ReactNode;
-  // status?: NodeStatus
+  status?: NodeStatus;
   onSettings?: () => void;
   onDoubleClick?: () => void;
 }
@@ -26,6 +30,7 @@ export const BaseExecutionNode = memo(
     icon: Icon,
     name,
     description,
+    status = "initial",
     children,
     onSettings,
     onDoubleClick,
@@ -52,18 +57,28 @@ export const BaseExecutionNode = memo(
         onDelete={handleDelete}
         onSettings={onSettings}
       >
-        <BaseNode onDoubleClick={onDoubleClick}>
-          <BaseNodeContent>
-            {typeof Icon === "string" ? (
-              <Image src={Icon} alt={name} width={16} height={16} />
-            ) : (
-              <Icon className="size-4 text-muted-foreground" />
-            )}
-            {children}
-            <BaseHandle id="target-1" type="target" position={Position.Left} />
-            <BaseHandle id="source-1" type="source" position={Position.Right} />
-          </BaseNodeContent>
-        </BaseNode>
+        <NodeStatusIndicator status={status} variant ="border">
+          <BaseNode onDoubleClick={onDoubleClick} status={status}>
+            <BaseNodeContent>
+              {typeof Icon === "string" ? (
+                <Image src={Icon} alt={name} width={16} height={16} />
+              ) : (
+                <Icon className="size-4 text-muted-foreground" />
+              )}
+              {children}
+              <BaseHandle
+                id="target-1"
+                type="target"
+                position={Position.Left}
+              />
+              <BaseHandle
+                id="source-1"
+                type="source"
+                position={Position.Right}
+              />
+            </BaseNodeContent>
+          </BaseNode>
+        </NodeStatusIndicator>
       </WorkflowNode>
     );
   }
