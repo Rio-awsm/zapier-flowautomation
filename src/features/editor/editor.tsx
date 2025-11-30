@@ -6,6 +6,7 @@ import {
   LoadingView,
 } from "@/components/shared/entity-views/entity-util-components";
 import { nodeComponents } from "@/config/node-components";
+import { NodeType } from "@/generated/prisma";
 import {
   addEdge,
   applyEdgeChanges,
@@ -23,8 +24,9 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 import { useSetAtom } from "jotai";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useSuspenseWorkflow } from "../workflows/hooks/use-workflows";
+import { ExecuteWorkflowButton } from "./execute-workflow-button";
 import { editorAtom } from "./store/atoms";
 
 export const EditorLoading = () => {
@@ -58,6 +60,10 @@ export const Editor = ({ workflowId }: { workflowId: string }) => {
     []
   );
 
+  const hasManualTrigger = useMemo(() => {
+    return nodes.some((node) => node.type === NodeType.MANUAL_TRIGGER);
+  }, [nodes]);
+
   return (
     <div className="size-full">
       <ReactFlow
@@ -81,6 +87,12 @@ export const Editor = ({ workflowId }: { workflowId: string }) => {
         <Panel position="top-right">
           <AddNodeButton />
         </Panel>
+
+        {hasManualTrigger && (
+          <Panel position="bottom-center">
+            <ExecuteWorkflowButton workflowId={workflowId} />
+          </Panel>
+        )}
       </ReactFlow>
     </div>
   );
