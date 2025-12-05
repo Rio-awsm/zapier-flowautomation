@@ -3,9 +3,9 @@ import { NonRetriableError } from "inngest";
 import ky, { type Options as KyOptions } from "ky";
 
 type HttprequestData = {
-  variableName?: string;
-  endpoint?: string;
-  method?: string;
+  variableName: string;
+  endpoint: string;
+  method: string;
   body?: string;
 };
 
@@ -23,8 +23,12 @@ export const httprequestExecutor: NodeExecutor<HttprequestData> = async ({
     throw new NonRetriableError("HTTP Request no Variable Name is given");
   }
 
+  if (!data.method) {
+    throw new NonRetriableError("HTTP Request no method given");
+  }
+
   const result = await step.run("http-request", async () => {
-    const endpoint = data.endpoint!;
+    const endpoint = data.endpoint;
     const method = data.method || "GET";
 
     const options: KyOptions = { method };
@@ -50,16 +54,9 @@ export const httprequestExecutor: NodeExecutor<HttprequestData> = async ({
       },
     };
 
-    if (data.variableName) {
-      return {
-        ...context,
-        [data.variableName]: responsePayload,
-      };
-    }
-
     return {
       ...context,
-      ...responsePayload,
+      [data.variableName]: responsePayload,
     };
   });
 
