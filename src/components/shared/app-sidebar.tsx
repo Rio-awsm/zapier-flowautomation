@@ -25,6 +25,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "../ui/sidebar";
+import { ModeToggle } from "./theme-toggle";
 
 const menuItems = [
   {
@@ -128,6 +129,18 @@ const AppSidebar = () => {
             >
               <LogOutIcon className="h-4 w-4" />
               <span>Sign Out</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              tooltip="Change Theme"
+              className="gap-x-4 h-10"
+            >
+              <ModeToggle />
+              <span>Change Theme</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

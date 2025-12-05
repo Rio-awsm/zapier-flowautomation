@@ -35,6 +35,13 @@ const formSchema = z.object({
   endpoint: z.url({ message: "Please enter a valid URL" }),
   method: z.enum(["GET", "POST", "PUT", "PATCH", "DELETE"]),
   body: z.string().optional(),
+  variableName: z
+    .string()
+    .min(1, { message: "Variable name is required" })
+    .regex(/^[A-Za-a_$][A-Za-z0-9_$]*$/, {
+      message:
+        "Variable name must start with a letter or underscore and contain only letters, numbers, and underscores",
+    }),
 });
 
 export type FormType = z.infer<typeof formSchema>;
@@ -46,6 +53,7 @@ interface Props {
   defaultEndpoint?: string;
   defaultMethod?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
   defaultBody?: string;
+  defaultVariableName?: string;
 }
 
 export const HttpRequestDialog = ({
@@ -55,10 +63,12 @@ export const HttpRequestDialog = ({
   defaultEndpoint = "",
   defaultMethod = "GET",
   defaultBody = "",
+  defaultVariableName = "",
 }: Props) => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
+      variableName: defaultVariableName,
       endpoint: defaultEndpoint,
       method: defaultMethod,
       body: defaultBody,
@@ -69,11 +79,19 @@ export const HttpRequestDialog = ({
     if (open) {
       form.reset({
         endpoint: defaultEndpoint,
+        variableName: defaultVariableName,
         method: defaultMethod,
         body: defaultBody,
       });
     }
-  }, [open, defaultEndpoint, defaultBody, defaultMethod, form]);
+  }, [
+    open,
+    defaultEndpoint,
+    defaultBody,
+    defaultMethod,
+    defaultVariableName,
+    form,
+  ]);
 
   const watchMethod = form.watch("method");
   const showBodyField = ["POST", "PUT", "PATCH"].includes(watchMethod);
@@ -113,6 +131,23 @@ export const HttpRequestDialog = ({
                   <FormDescription>
                     Statis URL or use {"{{variables}}"} for simple values or{" "}
                     {"{{json variable}}"} to stringify objects
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="variableName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Variable Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g. httpResponse" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    This variable will reference the response from the HTTP request.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

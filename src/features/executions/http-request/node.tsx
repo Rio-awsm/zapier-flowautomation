@@ -7,6 +7,7 @@ import { BaseExecutionNode } from "./base-execution-node";
 import { FormType, HttpRequestDialog } from "./dialog";
 
 type HttprequestNodeData = {
+  variableName?: string;
   endpoint?: string;
   method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
   body?: string;
@@ -28,6 +29,7 @@ export const HttpRequestNode = memo((props: NodeProps<HttprequestNodeType>) => {
             ...node,
             data: {
               ...node.data,
+              variableName: values.variableName,
               endpoint: values.endpoint,
               method: values.method,
               body: values.body,
@@ -57,6 +59,7 @@ export const HttpRequestNode = memo((props: NodeProps<HttprequestNodeType>) => {
         defaultEndpoint={nodeData.endpoint}
         defaultMethod={nodeData.method}
         defaultBody={nodeData.body}
+        defaultVariableName={nodeData.variableName}
       />
       <BaseExecutionNode
         {...props}

@@ -3,6 +3,7 @@ import { NonRetriableError } from "inngest";
 import ky, { type Options as KyOptions } from "ky";
 
 type HttprequestData = {
+  variableName?: string;
   endpoint?: string;
   method?: string;
   body?: string;
@@ -18,6 +19,10 @@ export const httprequestExecutor: NodeExecutor<HttprequestData> = async ({
     throw new NonRetriableError("HTTP Request no endpoint configured");
   }
 
+  if (!data.variableName) {
+    throw new NonRetriableError("HTTP Request no Variable Name is given");
+  }
+
   const result = await step.run("http-request", async () => {
     const endpoint = data.endpoint!;
     const method = data.method || "GET";
@@ -26,6 +31,9 @@ export const httprequestExecutor: NodeExecutor<HttprequestData> = async ({
 
     if (["POST", "PUT", "PATCH"].includes(method)) {
       options.body = data.body;
+      options.headers = {
+        "Content-Type": "application/json",
+      };
     }
 
     const response = await ky(endpoint, options);
@@ -34,13 +42,24 @@ export const httprequestExecutor: NodeExecutor<HttprequestData> = async ({
       ? await response.json()
       : await response.text();
 
-    return {
-      ...context,
+    const responsePayload = {
       httpResponse: {
         status: response.status,
         statusText: response.statusText,
         data: responseData,
       },
+    };
+
+    if (data.variableName) {
+      return {
+        ...context,
+        [data.variableName]: responsePayload,
+      };
+    }
+
+    return {
+      ...context,
+      ...responsePayload,
     };
   });
 
