@@ -2,6 +2,7 @@ import { NodeType } from "@/generated/prisma";
 import prisma from "@/lib/db";
 import { getExecutor } from "@/lib/executor-registry/executor-registry";
 import { NonRetriableError } from "inngest";
+import { googleFormTriggerChannel } from "./channels/googleform-trigger";
 import { httpRequestChannel } from "./channels/http-request";
 import { manualTriggerChannel } from "./channels/manual-trigger";
 import { inngest } from "./client";
@@ -11,7 +12,11 @@ export const executeWorkflow = inngest.createFunction(
   { id: "execute-workflow" },
   {
     event: "workflows/execute.workflow",
-    channels: [httpRequestChannel(), manualTriggerChannel()],
+    channels: [
+      httpRequestChannel(),
+      manualTriggerChannel(),
+      googleFormTriggerChannel(),
+    ],
   },
   async ({ event, step, publish }) => {
     const workflowId = event.data.workflowId;

@@ -7,12 +7,12 @@ import React, { useCallback } from "react";
 import { toast } from "sonner";
 import { Separator } from "../ui/separator";
 import {
-    Sheet,
-    SheetContent,
-    SheetDescription,
-    SheetHeader,
-    SheetTitle,
-    SheetTrigger,
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
 } from "../ui/sheet";
 
 export type NodeTypeOption = {
@@ -29,6 +29,13 @@ const triggerNodes: NodeTypeOption[] = [
     description:
       "Runs the flow on clicking a button. Good for getting started quickly",
     icon: MousePointerIcon,
+  },
+   {
+    type: NodeType.GOOGLE_FORM_TRIGGER,
+    label: "Google Form",
+    description:
+      "Runs the flow when a Google Form is submitted.",
+    icon: "/logos/googleform.svg",
   },
 ];
 
