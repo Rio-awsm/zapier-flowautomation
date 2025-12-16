@@ -57,6 +57,12 @@ const executionNodes: NodeTypeOption[] = [
     description: "Use Google Gemini on your workflow.",
     icon: "/logos/gemini.svg",
   },
+   {
+    type: NodeType.OPENAI,
+    label: "OpenAI Request",
+    description: "Use OpenAI on your workflow.",
+    icon: "/logos/openai.svg",
+  },
 ];
 
 interface NodeSelectorProps {

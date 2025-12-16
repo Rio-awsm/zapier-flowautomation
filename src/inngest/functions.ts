@@ -6,6 +6,7 @@ import { geminiChannel } from "./channels/gemini-execution";
 import { googleFormTriggerChannel } from "./channels/googleform-trigger";
 import { httpRequestChannel } from "./channels/http-request";
 import { manualTriggerChannel } from "./channels/manual-trigger";
+import { openAIChannel } from "./channels/openai-execution";
 import { stripeTriggerChannel } from "./channels/stripe-trigger";
 import { inngest } from "./client";
 import { topologicalSort } from "./utils";
@@ -20,6 +21,7 @@ export const executeWorkflow = inngest.createFunction(
       googleFormTriggerChannel(),
       stripeTriggerChannel(),
       geminiChannel(),
+      openAIChannel(),
     ],
   },
   async ({ event, step, publish }) => {
