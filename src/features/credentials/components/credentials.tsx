@@ -1,25 +1,25 @@
 "use client";
 import {
-    EntityContainer,
-    EntityItem,
-    EntityList,
-    EntityPagination,
-    EntitySearch,
+  EntityContainer,
+  EntityItem,
+  EntityList,
+  EntityPagination,
+  EntitySearch,
 } from "@/components/shared/entity-views/entity-container";
 import { EntityHeader } from "@/components/shared/entity-views/entity-header";
 import {
-    EmptyView,
-    ErrorView,
-    LoadingView,
+  EmptyView,
+  ErrorView,
+  LoadingView,
 } from "@/components/shared/entity-views/entity-util-components";
-import type { Credential } from "@/generated/prisma";
+import { Credential, CredentialType } from "@/generated/prisma";
 import { useEntitySearch } from "@/hooks/use-entity-search";
 import { formatDistanceToNow } from "date-fns";
-import { KeyIcon } from "lucide-react";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import {
-    useRemoveCredential,
-    useSuspenseCredentials,
+  useRemoveCredential,
+  useSuspenseCredentials,
 } from "../hooks/use-credentials";
 import { useCredentialsParams } from "../hooks/use-credentials-params";
 
@@ -70,12 +70,20 @@ export const CredentialsEmpty = () => {
   );
 };
 
+const credentialLogos: Record<CredentialType, string> = {
+  [CredentialType.OPENAI]: "/logos/openai.svg",
+  [CredentialType.ANTRHOPIC]: "/logos/anthropic.svg",
+  [CredentialType.GEMINI]: "/logos/gemini.svg",
+};
+
 export const CredentialItem = ({ data }: { data: Credential }) => {
   const removeCredential = useRemoveCredential();
 
   const handleRemove = () => {
     removeCredential.mutate({ id: data.id });
   };
+
+  const logo = credentialLogos[data.type] || "/logos/openai.svg";
 
   return (
     <EntityItem
@@ -90,7 +98,7 @@ export const CredentialItem = ({ data }: { data: Credential }) => {
       }
       image={
         <div className="size-8 flex items-center justify-center">
-          <KeyIcon className="size-5 text-muted-foreground" />
+          <Image src={logo} alt={data.type} width={20} height={20} />
         </div>
       }
       onRemove={handleRemove}
