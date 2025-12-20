@@ -12,6 +12,7 @@ type AnthropicNodeData = {
   model?: string;
   systemPrompt?: string;
   userPrompt?: string;
+   credentialId?:string;
   [key: string]: unknown;
 };
 
@@ -34,6 +35,7 @@ export const AnthropicNode = memo((props: NodeProps<AnthropicNodeType>) => {
               model: values.model,
               systemPrompt: values.systemPrompt,
               userPrompt: values.userPrompt,
+              credentialId: values.credentialId
             },
           };
         }
@@ -66,6 +68,7 @@ export const AnthropicNode = memo((props: NodeProps<AnthropicNodeType>) => {
         defaultVariableName={nodeData.variableName}
         defaultSystemPrompt={nodeData.systemPrompt}
         defaultUserPrompt={nodeData.userPrompt}
+        defaultCredentialId={nodeData.credentialId}
       />
       <BaseExecutionNode
         {...props}
