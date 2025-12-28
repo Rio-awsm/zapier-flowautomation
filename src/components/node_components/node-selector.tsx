@@ -75,6 +75,12 @@ const executionNodes: NodeTypeOption[] = [
     description: "Use Discord operations on your workflow.",
     icon: "/logos/discord.svg",
   },
+  {
+    type: NodeType.SLACK,
+    label: "Slack Operations",
+    description: "Use Slack operations on your workflow.",
+    icon: "/logos/slack.svg",
+  },
 ];
 
 interface NodeSelectorProps {
