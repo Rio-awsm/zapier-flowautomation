@@ -1,4 +1,5 @@
 import { anthropicExecutor } from "@/features/executions/anthropic/executor";
+import { discordExecutor } from "@/features/executions/discord/executor";
 import { geminiExecutor } from "@/features/executions/gemini/executor";
 import { httprequestExecutor } from "@/features/executions/http-request/executor";
 import { openaiExecutor } from "@/features/executions/openai/executor";
@@ -16,7 +17,8 @@ export const executorRegistry: Record<NodeType, NodeExecutor> = {
   [NodeType.STRIPE_TRIGGER]: stripeTriggerExecutor,
   [NodeType.GEMINI]: geminiExecutor,
   [NodeType.OPENAI]: openaiExecutor,
-  [NodeType.ANTRHOPIC]: anthropicExecutor
+  [NodeType.ANTRHOPIC]: anthropicExecutor,
+  [NodeType.DISCORD]: discordExecutor
 };
 
 export const getExecutor = (type: NodeType): NodeExecutor => {

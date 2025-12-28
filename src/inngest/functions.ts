@@ -3,6 +3,7 @@ import prisma from "@/lib/db";
 import { getExecutor } from "@/lib/executor-registry/executor-registry";
 import { NonRetriableError } from "inngest";
 import { anthropicChannel } from "./channels/anthropic-execution";
+import { discordChannel } from "./channels/discord-execution";
 import { geminiChannel } from "./channels/gemini-execution";
 import { googleFormTriggerChannel } from "./channels/googleform-trigger";
 import { httpRequestChannel } from "./channels/http-request";
@@ -23,7 +24,8 @@ export const executeWorkflow = inngest.createFunction(
       stripeTriggerChannel(),
       geminiChannel(),
       openAIChannel(),
-      anthropicChannel()
+      anthropicChannel(),
+      discordChannel()
     ],
   },
   async ({ event, step, publish }) => {

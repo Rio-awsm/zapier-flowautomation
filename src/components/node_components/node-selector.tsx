@@ -69,6 +69,12 @@ const executionNodes: NodeTypeOption[] = [
     description: "Use Anthropic on your workflow.",
     icon: "/logos/anthropic.svg",
   },
+  {
+    type: NodeType.DISCORD,
+    label: "Discord Operations",
+    description: "Use Discord operations on your workflow.",
+    icon: "/logos/discord.svg",
+  },
 ];
 
 interface NodeSelectorProps {
