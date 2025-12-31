@@ -22,7 +22,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { FaGithub, FaGoogle } from "react-icons/fa";
 import { toast } from "sonner";
 import z from "zod";
 
@@ -84,7 +83,7 @@ const RegisterForm = () => {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <div className="grid gap-6">
-                <div className="flex flex-col gap-4">
+                {/* <div className="flex flex-col gap-4">
                   <Button
                     variant="outline"
                     className="w-full"
@@ -102,7 +101,7 @@ const RegisterForm = () => {
                   >
                   <FaGoogle className="size-5"/>  Continue with Google
                   </Button>
-                </div>
+                </div> */}
 
                 <div className="grid gap-6">
                   <FormField
