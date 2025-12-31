@@ -1,4 +1,5 @@
 import { Connection, Node } from "@/generated/prisma";
+import { createId } from "@paralleldrive/cuid2";
 import toposort from "toposort";
 import { inngest } from "./client";
 
@@ -49,5 +50,6 @@ export const sendWorkflowExecution = async (data: {
   return inngest.send({
     name: "workflows/execute.workflow",
     data,
+    id: createId()
   });
 };
